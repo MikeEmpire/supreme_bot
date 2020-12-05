@@ -1,10 +1,10 @@
-const cheerio = require("cheerio");
+const cheerio = require('cheerio');
 
-const url = "http://www.supremenewyork.com";
+const url = 'http://www.supremenewyork.com';
 
 const options = {
   uri: url,
-  transform: function (body) {
+  transform(body) {
     return cheerio.load(body);
   },
 };

@@ -1,47 +1,47 @@
-const rp = require("request-promise");
-const cheerio = require("cheerio");
-const axios = require("axios");
+const rp = require('request-promise');
+const cheerio = require('cheerio');
+const axios = require('axios');
 
-const url = "http://www.supremenewyork.com";
+const url = 'http://www.supremenewyork.com';
 
 const options = {
   uri: url,
-  transform: function (body) {
+  transform(body) {
     return cheerio.load(body);
   },
 };
 
-var api = {};
+const api = {};
 
 api.getAll = (category, callback) => {
-  if (category === "all" || category === "new") {
+  if (category === 'all' || category === 'new') {
     options.uri += `/shop/${category}/`;
 
     rp(options)
       .then(($) => {
-        callback($("img").length, category);
+        callback($('img').length, category);
         return $;
       })
       .catch((err) => {
         if (err.statusCode === 404) {
-          console.log("error: 404 supreme webshop is closed. check back later");
+          console.log('error: 404 supreme webshop is closed. check back later');
           callback(null, null, err.statusCode);
         }
         return err;
       });
   } else {
-    options.uri += "/mobile_stock.json";
+    options.uri += '/mobile_stock.json';
 
     async function getProducts() {
       try {
         const response = await axios.get(options.uri, {
           headers: {
-            Accept: "application/json, text/plain, */*",
-            "User-Agent":
-              "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1",
+            Accept: 'application/json, text/plain, */*',
+            'User-Agent':
+              'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
           },
         });
-        let categoryData = response.data.products_and_categories[`${category}`];
+        const categoryData = response.data.products_and_categories[`${category}`];
         callback(categoryData, category);
       } catch (error) {
         console.error(error);
@@ -51,7 +51,7 @@ api.getAll = (category, callback) => {
     getProducts();
   }
 
-  //Resets uri for next query
+  // Resets uri for next query
   options.uri = url;
 };
 

@@ -1,13 +1,12 @@
-const options = require("../constants/options");
-const api = require("../app");
+const options = require('../constants/options');
+const api = require('../app');
 
 api.getAll(options.all, (products, category, err) => {
   if (err) {
-    console.log("error: " + err);
+    console.log(`error: ${err}`);
     return err;
-  } else {
-    console.log(`${products} found in ${category}`);
   }
+  console.log(`${products} found in ${category}`);
 });
 
 // api.getItem("173767", (product, stockStatus, err) => {
@@ -22,12 +21,11 @@ api.getAll(options.all, (products, category, err) => {
 
 api.getAll(options.category.jackets, (products, category, err) => {
   if (err) {
-    console.log("error: " + err);
+    console.log(`error: ${err}`);
     return err;
-  } else {
-    console.log(products);
-    return products;
   }
+  console.log(products);
+  return products;
 });
 
 // api.getRandom((res, err) => {

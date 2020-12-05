@@ -1,12 +1,12 @@
 /** *********************************** */
 //* ****// Dependencies
 /** *********************************** */
-const express = require("express");
-const bodyParser = require("body-parser");
-const compression = require("compression");
-const cors = require("cors");
-const helmet = require("helmet");
-const logger = require("morgan");
+const express = require('express');
+const bodyParser = require('body-parser');
+const compression = require('compression');
+const cors = require('cors');
+const helmet = require('helmet');
+const logger = require('morgan');
 
 const app = express();
 
@@ -19,15 +19,15 @@ app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: true })); // parse application/x-www-form-urlencoded
 app.use(bodyParser.json()); // parse application/json
 app.use(cors()); // Enable CORS from client-side
-app.use(logger("dev"));
+app.use(logger('dev'));
 app.use(compression());
 
 /** *********************************** */
 //* ****// Route declaration
 /** *********************************** */
-app.get("/", (req, res) => res.status(200).send("Hello!"));
+app.get('/', (req, res) => res.status(200).send('Hello!'));
 
-require("./routes")(app);
+require('./routes')(app);
 
 app.listen(process.env.PORT || PORT, () => null);
 
