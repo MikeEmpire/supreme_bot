@@ -1,12 +1,8 @@
-const ProductServices = require("../services/product_service");
+const ProductServices = require('../services/product_service');
 
-exports.getAllProducts = async (req, res, next) => {
-  try {
-    const { category } = req.query;
-    const products = await ProductServices.getAllProducts(category);
+exports.getAllProducts = async (req, res) => {
+  const { category } = req.query;
+  const products = await ProductServices.getAllProducts(category);
 
-    return res.status(200).send(products);
-  } catch {
-    next();
-  }
+  return res.status(200).send(products);
 };
