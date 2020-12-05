@@ -6,3 +6,12 @@ exports.getAllProducts = async (req, res) => {
 
   return res.status(200).send(products);
 };
+
+exports.getProduct = async (req, res) => {
+  const { id } = req.params;
+  const { product, stockCount } = await ProductServices.getProduct(
+    id,
+  );
+
+  return res.status(200).send({ product, stockCount });
+};

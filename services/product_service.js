@@ -1,9 +1,12 @@
 const axios = require('axios');
 const options = require('../config/cheerio');
+const checkStock = require('../modules/checkStock');
+
+const { uri } = options;
 
 const getAllProducts = async (category) => {
-  const url = `${options.uri}/mobile_stock.json`;
-  const responseHeaders = {
+  const url = `${uri}/mobile_stock.json`;
+  const headers = {
     headers: {
       Accept: 'application/json, text/plain, */*',
       'User-Agent':
@@ -11,17 +14,25 @@ const getAllProducts = async (category) => {
     },
   };
 
-  const response = await axios
-    .get(url, responseHeaders)
-    .then((res) => {
-      if (category !== 'all' || category === 'new') {
-        return res.data.products_and_categories[`${category}`];
-      }
-      return res.data.products_and_categories;
-    });
+  const response = await axios.get(url, headers).then((res) => {
+    if (category !== 'all' || category === 'new') {
+      return res.data.products_and_categories[`${category}`];
+    }
+    return res.data.products_and_categories;
+  });
   return response;
+};
+
+const getProduct = async (id) => {
+  const url = `${uri}/shop/${id}.json`;
+  return axios.get(url).then((res) => {
+    const { product, stockCount } = checkStock(res.data);
+
+    return { product, stockCount };
+  });
 };
 
 module.exports = {
   getAllProducts,
+  getProduct,
 };
