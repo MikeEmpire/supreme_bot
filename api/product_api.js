@@ -1,8 +1,11 @@
 const ProductServices = require('../services/product_service');
+const capitalize = require('../modules/capitalize');
 
 exports.getAllProducts = async (req, res) => {
   const { category } = req.query;
-  const products = await ProductServices.getAllProducts(category);
+  const products = await ProductServices.getAllProducts(
+    capitalize(category),
+  );
 
   return res.status(200).send(products);
 };

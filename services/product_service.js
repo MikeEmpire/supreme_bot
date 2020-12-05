@@ -15,8 +15,10 @@ const getAllProducts = async (category) => {
   };
 
   const response = await axios.get(url, headers).then((res) => {
-    if (category !== 'all' || category === 'new') {
-      return res.data.products_and_categories[`${category}`];
+    if (category) {
+      if (category !== 'all') {
+        return res.data.products_and_categories[`${category}`];
+      }
     }
     return res.data.products_and_categories;
   });
