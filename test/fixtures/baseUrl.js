@@ -1,5 +1,5 @@
 // eslint-disable-next-line
 module.exports =
   process.env.NODE_ENV === 'test'
-    ? 'https://files.grolens.app'
+    ? 'https://supreme.afam.app'
     : 'http://localhost:4444';
